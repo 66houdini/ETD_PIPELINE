@@ -1,0 +1,139 @@
+<mxfile host="app.diagrams.net" agent="ETD Project" version="24.0.0">
+  <diagram name="Power Circuit" id="power">
+    <mxGraphModel dx="1100" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Figure: Two-Point Energy-Balance Theft Detection Circuit" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="200" y="10" width="620" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mains" value="AC MAINS&#xa;220-240 V, 50 Hz" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="80" y="70" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fuse" value="FUSE&#xa;4 A" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="1">
+          <mxGeometry x="300" y="70" width="90" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pzemA" value="PZEM-A&#xa;(Point A)&#xa;Total incoming power" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="460" y="65" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="node" value="Node X&#xa;(line splits here)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366" vertex="1" parent="1">
+          <mxGeometry x="700" y="70" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lblMetered" value="METERED BRANCH (legitimate)" style="text;html=1;align=center;fontSize=12;fontStyle=1;fontColor=#006600" vertex="1" parent="1">
+          <mxGeometry x="380" y="180" width="260" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="lblBypass" value="BYPASS BRANCH (simulated theft)" style="text;html=1;align=center;fontSize=12;fontStyle=1;fontColor=#b85450" vertex="1" parent="1">
+          <mxGeometry x="790" y="180" width="280" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pzemB" value="PZEM-B&#xa;(Point B)&#xa;Metered load only" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="430" y="215" width="160" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sw" value="SWITCH S1&#xa;(engages theft)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" vertex="1" parent="1">
+          <mxGeometry x="860" y="215" width="140" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="bulb1" value="BULB 1&#xa;10 W LED&#xa;(normal load)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656" vertex="1" parent="1">
+          <mxGeometry x="450" y="340" width="120" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="bulb2" value="BULB 2&#xa;10 W LED&#xa;(stolen load)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450" vertex="1" parent="1">
+          <mxGeometry x="870" y="340" width="120" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="neutral" value="SHARED NEUTRAL BUS  (screw terminal)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="380" y="500" width="620" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pzemC" value="PZEM-C (Point C)&#xa;BYPASSED on mains side&#xa;— reads 0.00 W —" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;fontColor=#666666" vertex="1" parent="1">
+          <mxGeometry x="120" y="330" width="180" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="note" value="GAP = P_A − P_B&#xa;&#xa;Switch OPEN:  P_A ≈ P_B  →  GAP ≈ 0 W  →  normal&#xa;Switch CLOSED: P_A ≈ 2×P_B →  GAP ≈ 11 W →  THEFT&#xa;&#xa;Alarm threshold: GAP &gt; 10.0 W" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=10;fillColor=#fff2cc;strokeColor=#d6b656" vertex="1" parent="1">
+          <mxGeometry x="120" y="600" width="380" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#b85450;endArrow=none;" edge="1" parent="1" source="mains" target="fuse"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#b85450;endArrow=none;" edge="1" parent="1" source="fuse" target="pzemA"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#b85450;endArrow=none;" edge="1" parent="1" source="pzemA" target="node"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#82b366;endArrow=none;exitX=0.25;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="node" target="pzemB"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#b85450;endArrow=none;exitX=0.75;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="node" target="sw"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#82b366;endArrow=none;" edge="1" parent="1" source="pzemB" target="bulb1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#b85450;endArrow=none;" edge="1" parent="1" source="sw" target="bulb2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#9673a6;endArrow=none;" edge="1" parent="1" source="bulb1" target="neutral"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#9673a6;endArrow=none;" edge="1" parent="1" source="bulb2" target="neutral"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=3;strokeColor=#9673a6;endArrow=none;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="neutral" target="mains"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="40" y="525" /><mxPoint x="40" y="100" /></Array></mxGeometry></mxCell>
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#999999;endArrow=none;" edge="1" parent="1" source="pzemC" target="neutral"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram name="System Block Diagram" id="block">
+    <mxGraphModel dx="1100" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" math="0" shadow="0">
+      <root>
+        <mxCell id="b0" />
+        <mxCell id="b1" parent="b0" />
+
+        <mxCell id="btitle" value="Figure: System Block Diagram — Hardware and Machine-Learning Layers" style="text;html=1;align=center;fontSize=16;fontStyle=1" vertex="1" parent="b1">
+          <mxGeometry x="180" y="10" width="700" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="sensA" value="PZEM-A&#xa;Point A" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" vertex="1" parent="b1"><mxGeometry x="60" y="90" width="110" height="55" as="geometry" /></mxCell>
+        <mxCell id="sensB" value="PZEM-B&#xa;Point B" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" vertex="1" parent="b1"><mxGeometry x="60" y="170" width="110" height="55" as="geometry" /></mxCell>
+        <mxCell id="sensC" value="PZEM-C&#xa;Point C (bypassed)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;fontColor=#666666" vertex="1" parent="b1"><mxGeometry x="60" y="250" width="110" height="55" as="geometry" /></mxCell>
+
+        <mxCell id="mcu" value="ARDUINO MEGA 2560&#xa;&#xa;• Reads 3× PZEM (Modbus, 9600 baud)&#xa;• Computes GAP = P_A − P_B&#xa;• Threshold compare (10.0 W)&#xa;• Drives LCD / buzzer / LED&#xa;• Streams over USB (115200 baud)" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=10;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="b1">
+          <mxGeometry x="270" y="110" width="270" height="150" as="geometry" />
+        </mxCell>
+
+        <mxCell id="lcd" value="LCD 16×2 (I²C, 0x27)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="b1"><mxGeometry x="620" y="70" width="170" height="45" as="geometry" /></mxCell>
+        <mxCell id="buz" value="Buzzer (pin 8)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="b1"><mxGeometry x="620" y="130" width="170" height="45" as="geometry" /></mxCell>
+        <mxCell id="led" value="LED (pin 9, 220 Ω)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00" vertex="1" parent="b1"><mxGeometry x="620" y="190" width="170" height="45" as="geometry" /></mxCell>
+
+        <mxCell id="l1" value="LAYER 1 — REAL-TIME&#xa;Instant bypass detection&#xa;(energy balance, no ML)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="b1">
+          <mxGeometry x="620" y="270" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="pc" value="PC — pyserial listener&#xa;etd_hardware_integration.py" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="b1">
+          <mxGeometry x="270" y="330" width="270" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="log" value="Daily energy accumulation&#xa;live_readings_log.csv" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6" vertex="1" parent="b1">
+          <mxGeometry x="270" y="420" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="feat" value="Feature engineering&#xa;173 features per customer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf" vertex="1" parent="b1">
+          <mxGeometry x="270" y="505" width="270" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="model" value="STACKED ENSEMBLE (etd_model.pkl)&#xa;Stage 1: XGBoost | Random Forest | MLP&#xa;Stage 2: Logistic Regression meta-learner" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="b1">
+          <mxGeometry x="230" y="590" width="350" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="l2" value="LAYER 2 — ACCUMULATED PATTERN&#xa;Behavioural theft classification&#xa;(threshold 0.435)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1" vertex="1" parent="b1">
+          <mxGeometry x="620" y="595" width="200" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="be1" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="sensA" target="mcu"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be2" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="sensB" target="mcu"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be3" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#999999;" edge="1" parent="b1" source="sensC" target="mcu"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be4" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="mcu" target="lcd"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be5" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="mcu" target="buz"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be6" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="mcu" target="led"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be7" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="b1" source="mcu" target="l1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be8" value="USB serial" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="mcu" target="pc"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be9" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="pc" target="log"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be10" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="log" target="feat"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be11" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" parent="b1" source="feat" target="model"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="be12" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="b1" source="model" target="l2"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

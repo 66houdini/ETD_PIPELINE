@@ -1,0 +1,22 @@
+# Publish only the project source, results and figures.
+/*
+!/.gitignore
+!/README.md
+!/requirements.txt
+!/etd_pipeline.py
+!/cnn_experiment.py
+!/etd_hardware_integration.py
+!/export_demo_sample.py
+!/make_subset.py
+!/make_figures_data.py
+!/make_figures_static.py
+!/make_figures_extra.py
+!/etd_arduino/
+!/figures/
+!/etd_model.pkl
+!/etd_cnn.pt
+!/report_metrics.json
+!/report_artifacts.npz
+!/demo_historical_sample.csv
+!/live_readings_log.csv
+!/shap_summary.png
