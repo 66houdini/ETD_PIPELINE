@@ -32,7 +32,7 @@ from etd_pipeline import (load_data, impute_rowwise_median, _calendar_masks,
 BASE = os.path.dirname(os.path.abspath(__file__))
 DATASET_PATH = os.path.join(BASE, 'data set.csv')
 SEEDS = [42, 1, 2, 3, 4]
-MODES = ['weights', 'smote']
+MODES = ['weights', 'smote', 'smote_infold']
 FPR_CAP = 0.0103
 GRID = np.linspace(0.01, 0.99, 197)      # same grid as etd_pipeline.threshold_analysis
 
@@ -85,6 +85,11 @@ def run_one(F, y, seed, mode):
     X_tr, X_va, X_te = (scaler.transform(F[i]) for i in (idx_tr, idx_va, idx_te))
     y_tr, y_va, y_te = y[idx_tr], y[idx_va], y[idx_te]
 
+    # 'smote'        : resample the whole training set, THEN cross-validate
+    #                  (held-out folds contain synthetic points).
+    # 'smote_infold' : cross-validate the real training set and resample each
+    #                  training fold only (held-out folds are real data).
+    # 'weights'      : no resampling; cost-sensitive classifiers.
     if mode == 'smote':
         X_fit, y_fit = SMOTETomek(random_state=seed).fit_resample(X_tr, y_tr)
     else:
@@ -99,9 +104,13 @@ def run_one(F, y, seed, mode):
     oof = np.zeros((len(y_fit), len(names)))
     val_p = np.zeros((len(y_va), len(names)))
     test_p = np.zeros((len(y_te), len(names)))
-    for j, name in enumerate(names):
-        for tr, ho in skf.split(X_fit, y_fit):
-            clfs[name].fit(X_fit[tr], y_fit[tr])
+    for tr, ho in skf.split(X_fit, y_fit):
+        if mode == 'smote_infold':
+            X_f, y_f = SMOTETomek(random_state=seed).fit_resample(X_fit[tr], y_fit[tr])
+        else:
+            X_f, y_f = X_fit[tr], y_fit[tr]
+        for j, name in enumerate(names):
+            clfs[name].fit(X_f, y_f)
             oof[ho, j] = clfs[name].predict_proba(X_fit[ho])[:, 1]
             val_p[:, j] += clfs[name].predict_proba(X_va)[:, 1] / 5
             test_p[:, j] += clfs[name].predict_proba(X_te)[:, 1] / 5
@@ -166,6 +175,13 @@ def summarise(runs):
         d = [w[s]['ensemble_test_auc'] - m[s]['ensemble_test_auc'] for s in common]
         out['weights_minus_smote_test_auc'] = agg(d) | {
             'paired_t_p': float(stats.ttest_1samp(d, 0.0).pvalue)}
+    f = {r['seed']: r for r in runs if r['mode'] == 'smote_infold'}
+    for tag, other in (('weights_minus_smote_infold_test_auc', w),
+                       ('smote_minus_smote_infold_test_auc', m)):
+        common = sorted(set(other) & set(f))
+        if len(common) > 1:
+            d = [other[s]['ensemble_test_auc'] - f[s]['ensemble_test_auc'] for s in common]
+            out[tag] = agg(d) | {'paired_t_p': float(stats.ttest_1samp(d, 0.0).pvalue)}
     return out
 
 
@@ -180,10 +196,12 @@ def print_summary(summ):
                 print(f"  {k:<32} {a['mean']:.4f} ± {a['std']:.4f}  "
                       f"(95% CI ±{a['ci95_half_width']:.4f}, "
                       f"range {a['min']:.4f}–{a['max']:.4f})")
-    if 'weights_minus_smote_test_auc' in summ:
-        a = summ['weights_minus_smote_test_auc']
-        print(f"\nClass-weighted minus SMOTETomek, ensemble test AUC: "
-              f"{a['mean']:+.4f} ± {a['std']:.4f} (paired t-test p = {a['paired_t_p']:.4f})")
+    for tag in ('weights_minus_smote_test_auc', 'weights_minus_smote_infold_test_auc',
+                'smote_minus_smote_infold_test_auc'):
+        if tag in summ:
+            a = summ[tag]
+            print(f"{tag}: {a['mean']:+.4f} ± {a['std']:.4f} "
+                  f"(paired t-test p = {a['paired_t_p']:.4f})")
 
 
 if __name__ == '__main__':

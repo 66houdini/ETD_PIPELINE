@@ -15,7 +15,7 @@ meta-learner) detects behavioural theft from daily consumption history.
 | Path | Purpose |
 |---|---|
 | `etd_pipeline.py` | Full ML pipeline: imputation, 173-feature engineering, SMOTETomek vs class-weighted comparison, stacking, threshold analysis, SHAP |
-| `multiseed_experiment.py` | Five-seed repeat of the experiment with a train/validation/test split and validation-set threshold selection |
+| `multiseed_experiment.py` | Five-seed, three-condition experiment with a train/validation/test split and validation-set threshold selection |
 | `cnn_experiment.py` | 1D-CNN baseline used for comparison |
 | `etd_hardware_integration.py` | Serial listener combining the live energy-balance check with the saved model |
 | `etd_arduino/etd_arduino.ino` | Arduino Mega 2560 firmware (3 × PZEM-004T v4.0, I²C LCD, buzzer, LED) |
@@ -45,16 +45,22 @@ Hardware: baseline gap −0.10 to +0.20 W, gap under simulated bypass
 
 ## Multi-seed results (five seeds, 70/10/20 split, mean ± standard deviation)
 
-| Metric | SMOTETomek | Class-weighted |
-|---|---|---|
-| Ensemble test AUC | 0.7657 ± 0.0115 | 0.8170 ± 0.0056 |
-| XGBoost OOF − test AUC | +0.1972 ± 0.0073 | −0.0126 ± 0.0092 |
-| Random Forest OOF − test AUC | +0.1630 ± 0.0069 | −0.0054 ± 0.0052 |
-| MLP OOF − test AUC | +0.2543 ± 0.0109 | −0.0396 ± 0.0164 |
+Three ways of handling class imbalance were compared on identical partitions:
+SMOTETomek applied before cross-validation, SMOTETomek applied inside each
+training fold, and class weighting.
 
-With the threshold chosen on the validation set (0.438 ± 0.014), the
-class-weighted ensemble gave a test false positive rate of 0.0100 ± 0.0014 and
-recall of 0.2169 ± 0.0222.
+| Quantity | SMOTETomek before CV | SMOTETomek within folds | Class weighting |
+|---|---|---|---|
+| Ensemble test AUC | 0.7657 ± 0.0115 | 0.7957 ± 0.0066 | 0.8170 ± 0.0056 |
+| XGBoost OOF − test AUC | +0.1972 ± 0.0073 | −0.0115 ± 0.0093 | −0.0126 ± 0.0092 |
+| Random Forest OOF − test AUC | +0.1630 ± 0.0069 | −0.0055 ± 0.0067 | −0.0054 ± 0.0052 |
+| MLP OOF − test AUC | +0.2543 ± 0.0109 | −0.0353 ± 0.0193 | −0.0396 ± 0.0164 |
+| Test FPR at validation-selected threshold | 0.0097 ± 0.0023 | 0.0104 ± 0.0026 | 0.0100 ± 0.0014 |
+| Test recall at that threshold | 0.1668 ± 0.0106 | 0.1729 ± 0.0151 | 0.2169 ± 0.0222 |
+
+Resampling before cross-validation overstates base-classifier AUC by 0.16 to
+0.25. Resampling within folds removes the overstatement and leaves test AUC
+unchanged. Class weighting gives the best ensemble on every seed.
 
 ## Running
 
