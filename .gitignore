@@ -20,3 +20,6 @@
 !/demo_historical_sample.csv
 !/live_readings_log.csv
 !/shap_summary.png
+!/multiseed_experiment.py
+!/multiseed_results.json
+!/multiseed_summary.json

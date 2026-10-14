@@ -15,6 +15,7 @@ meta-learner) detects behavioural theft from daily consumption history.
 | Path | Purpose |
 |---|---|
 | `etd_pipeline.py` | Full ML pipeline: imputation, 173-feature engineering, SMOTETomek vs class-weighted comparison, stacking, threshold analysis, SHAP |
+| `multiseed_experiment.py` | Five-seed repeat of the experiment with a train/validation/test split and validation-set threshold selection |
 | `cnn_experiment.py` | 1D-CNN baseline used for comparison |
 | `etd_hardware_integration.py` | Serial listener combining the live energy-balance check with the saved model |
 | `etd_arduino/etd_arduino.ino` | Arduino Mega 2560 firmware (3 × PZEM-004T v4.0, I²C LCD, buzzer, LED) |
@@ -22,6 +23,7 @@ meta-learner) detects behavioural theft from daily consumption history.
 | `make_figures_*.py`, `figures/` | Figure generators and the figures used in the report |
 | `etd_model.pkl`, `etd_cnn.pt` | Trained ensemble and CNN weights |
 | `report_metrics.json`, `report_artifacts.npz` | Results of the full-dataset run |
+| `multiseed_results.json`, `multiseed_summary.json` | Per-seed results and aggregates of the five-seed run |
 | `demo_historical_sample.csv`, `live_readings_log.csv` | Demo input and logged prototype readings |
 
 ## Results (full SGCC dataset, held-out test set of 8,475 customers)
@@ -41,11 +43,25 @@ out-of-fold and test figures agree.
 Hardware: baseline gap −0.10 to +0.20 W, gap under simulated bypass
 10.6–11.2 W, alarm threshold 10.0 W.
 
+## Multi-seed results (five seeds, 70/10/20 split, mean ± standard deviation)
+
+| Metric | SMOTETomek | Class-weighted |
+|---|---|---|
+| Ensemble test AUC | 0.7657 ± 0.0115 | 0.8170 ± 0.0056 |
+| XGBoost OOF − test AUC | +0.1972 ± 0.0073 | −0.0126 ± 0.0092 |
+| Random Forest OOF − test AUC | +0.1630 ± 0.0069 | −0.0054 ± 0.0052 |
+| MLP OOF − test AUC | +0.2543 ± 0.0109 | −0.0396 ± 0.0164 |
+
+With the threshold chosen on the validation set (0.438 ± 0.014), the
+class-weighted ensemble gave a test false positive rate of 0.0100 ± 0.0014 and
+recall of 0.2169 ± 0.0222.
+
 ## Running
 
 ```bash
 pip install -r requirements.txt
 python etd_pipeline.py
+python multiseed_experiment.py
 python etd_hardware_integration.py --offline
 python etd_hardware_integration.py --port COM10
 ```
